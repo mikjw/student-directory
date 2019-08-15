@@ -3,7 +3,7 @@ def input_students
   students = []
   name = gets.chomp
   while !name.empty? do
-    students << {name: name, cohort: :november}
+    students << {name: name, cohort: :november, year_of_birth: 1960, country_of_birth: "USA"}
     puts "Now we have #{students.count} students"
     name = gets.chomp
   end
@@ -16,12 +16,8 @@ def print_header
 end
 
 def print(students)
-  index = 0
-  while index < students.length
-    if students[index][:name][0].downcase == 'p' && students[index][:name].length <= 12
-      puts "#{index + 1}: #{students[index][:name]} (#{students[index][:cohort]} cohort)"
-    end
-    index += 1
+  students.each_with_index do |student, index|
+    puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort) born: #{student[:year_of_birth]} in #{student[:country_of_birth]}"
   end
 end
 
