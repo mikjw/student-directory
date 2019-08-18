@@ -1,13 +1,34 @@
-def input_students
-  puts "Enter names, or press return twice to finish"
+def input_students(default_cohort)
   students = []
-  name = gets.chomp
-  while !name.empty? do
-    students << {name: name, cohort: :november, year_of_birth: 1960, country_of_birth: "USA"}
+  while true
+    puts "Enter name and press return. Leave blank to finish."
+      name = gets.chomp
+      if name == ""
+        break
+      end 
+    while true
+      puts "Enter cohort. Leave blank to use default cohort."
+      cohort = gets.chomp
+      if cohort == ""
+        cohort = default_cohort.to_s
+        students << {name: name, cohort: cohort.to_s} 
+        break 
+      elsif !check(cohort) 
+        puts "Error - please enter a valid cohort" 
+      elsif check(cohort) 
+        students << {name: name, cohort: cohort.to_s} 
+        break
+      end 
+    end
     puts "Now we have #{students.count} students"
-    name = gets.chomp
   end
   students
+end 
+
+def check(cohort)
+  valid_cohorts = ['january', 'feburary', 'march', 'april',
+  'may', 'june', 'august', 'september', 'october', 'november', 'december']
+  valid_cohorts.include?(cohort.downcase)
 end 
 
 def print_header
@@ -17,7 +38,7 @@ end
 
 def print(students)
   students.each_with_index do |student, index|
-    puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort) born: #{student[:year_of_birth]} in #{student[:country_of_birth]}".center(60)
+    puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort)".center(60)
   end
 end
 
@@ -25,7 +46,7 @@ def print_footer(students)
   puts "Overall, we have #{students.count} great students".center(60)
 end
 
-students = input_students
+students = input_students("may")
 print_header
 print(students)
 print_footer(students)
