@@ -37,8 +37,19 @@ def print_header
 end
 
 def print(students)
-  students.each_with_index do |student, index|
-    puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort)".center(60)
+  current_cohorts = []
+  students.each_with_index do |student|
+    if !current_cohorts.include?(student[:cohort])
+      current_cohorts << student[:cohort]
+    end 
+  end 
+  current_cohorts.each do |cohort|
+    puts "Students in #{cohort} cohort:".center(60)
+    students.each_with_index do |student, index|
+      if student[:cohort] == cohort
+        puts "#{index + 1}: #{student[:name]}".center(60)
+      end
+    end
   end
 end
 
